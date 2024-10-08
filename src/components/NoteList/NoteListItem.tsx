@@ -36,7 +36,7 @@ export default function NoteListItem({ note }: { note: Note }) {
     <div className="relative">
       <button
         className="h-fit w-full shadow-xl outline outline-1 outline-gray-300"
-        onClick={() => router.push(`/note/${note.id}`)}
+        onClick={() => router.push(`/${note.id}`)}
       >
         <div className="relative aspect-A4 bg-white">
           {note.snapshot && (
@@ -50,31 +50,6 @@ export default function NoteListItem({ note }: { note: Note }) {
           </div>
         </div>
       </button>
-
-      <AlertDialog open={open} onOpenChange={setOpen}>
-        <AlertDialogTrigger asChild>
-          <button className="absolute -right-1.5 -top-1.5 h-8 w-8">
-            {/* <DeleteButtonIcon /> */}
-            <Image src={DeleteButtonIcon} width={32} height={32} alt="" />
-          </button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            {/* <DialogText /> */}
-            <Image src={DialogText} width={384} height={40} alt="" />
-          </AlertDialogHeader>
-          <AlertDialogFooter className="sm:justify-between">
-            <CancelButton onPointerUp={() => setOpen(false)}>
-              {/* <CancelButtonText /> */}
-              <Image src={CancelButtonText} width={124} height={42} alt="" />
-            </CancelButton>
-            <ActionButton onPointerUp={() => handleDeleteNote(note.id)}>
-              {/* <OKButtonText /> */}
-              <Image src={OKButtonText} width={124} height={42} alt="" />
-            </ActionButton>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }

@@ -35,3 +35,5 @@ export const canvasTranslateYAtom = atom<number>(0);
 export const canvasWidthAtom = atom<number>(0);
 
 export const canvasHeightAtom = atom<number>(0);
+
+export const showQrImageAtom = atom<boolean>(false);

@@ -33,8 +33,8 @@ export const ZwibblerConfig = lowercaseObjectKeys({
   multilineText: 'true',
 
   pageView: 'true',
-  defaultZoom: 'width', // page
-  defaultPaperSize: 'A4',
+  defaultZoom: 'page', // page
+  // defaultPaperSize: 'A4',
   outsidePageColour: '#F1FFF2',
   pageShadow: 'false',
   pageBorderColour: '#989898',

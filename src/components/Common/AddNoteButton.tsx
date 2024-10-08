@@ -45,7 +45,7 @@ export default function AddNewButton({ setIsLoading, ...props }: ButtonProps) {
             updatedAt: Date.now(),
           })
           .then(() => {
-            router.push(`/note/${id}`);
+            router.push(`/${id}`);
           })
           .catch((error) => {
             setIsLoading(false);

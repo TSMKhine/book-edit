@@ -31,9 +31,12 @@ export default function FilePrint() {
   const pathname = usePathname();
 
   const handlePrint = async () => {
-    const pdf = new jsPDF();
+    const pdf = new jsPDF({ orientation: 'landscape' });
     const imgWidth = pdf.internal.pageSize.getWidth();
     const imgHeight = pdf.internal.pageSize.getHeight();
+    // let { imgWidth, imgHeight } = ctx.getCanvasSize();
+    // console.log('imgWidth', imgWidth);
+    // console.log('imgHeight', imgHeight);
 
     // get file title
     const noteId = pathname.split('/').pop() as string;
@@ -41,12 +44,13 @@ export default function FilePrint() {
     const filename = `${note?.title}.pdf` || 'download.pdf';
 
     // generate pdf
-    const pageCount = ctx.getPageCount();
-    for (let page = 0; page < pageCount; page++) {
-      const pngData = ctx.save({ format: 'png', page });
-      page !== 0 && pdf.addPage();
-      pdf.addImage(pngData, 'PNG', 0, 0, imgWidth, imgHeight);
-    }
+    // const pageCount = ctx.getPageCount();
+    // for (let page = 0; page < pageCount; page++) {
+    var page = ctx.getCurrentPage();
+    const pngData = ctx.save({ format: 'png', page });
+    // page !== 0 && pdf.addPage();
+    pdf.addImage(pngData, 'PNG', 0, 0, imgWidth, imgHeight);
+    // }
 
     // NOTE: for safari download
     downloadDataUriToFile(pdf.output('datauristring'), filename);

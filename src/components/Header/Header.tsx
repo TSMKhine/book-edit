@@ -18,7 +18,7 @@ export default function Header() {
   const [isSaving] = useAtom(isSavingAtom);
 
   const handleBackButton = () => {
-    router.push('/list');
+    router.push('/');
   };
 
   return (

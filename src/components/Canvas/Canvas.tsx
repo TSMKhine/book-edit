@@ -8,7 +8,7 @@ import { ZwibblerConfig } from '@/libs/zwibbler/ZwibblerConfig';
 import controller from '@/libs/zwibbler/customController';
 
 import { contextAtom, selectedNodesAtom, toolNameAtom } from '@/stores/canvas';
-import { showRulerAtom } from '@/stores/ui';
+import { showQrImageAtom, showRulerAtom } from '@/stores/ui';
 
 import Header from '@/components/Header';
 import Toolbar from '@/components/Toolbar';
@@ -23,6 +23,10 @@ import { TRulerKind } from '@/types/ui';
 import CanvasPosition from './CanvasPosition';
 import PickTool from './PickTool';
 import ZoomTool from './ZoomTool';
+import BACKGROUND_MAP from './BackgroundMap';
+import { CANVAS_LAYER, CANVAS_SIZE } from '@/constants/canvas';
+import PageMove from './PageMove';
+import QrConfrimDialogue from '@/components/QrConfirmDialogue';
 
 declare let Zwibbler: ZwibblerClass;
 
@@ -35,6 +39,7 @@ export default function Canvas({ noteId }: { noteId: string }) {
   const setToolName = useSetAtom(toolNameAtom);
   const setSelectedNodes = useSetAtom(selectedNodesAtom);
   const [showRuler, setShowRuler] = useAtom(showRulerAtom);
+  const [showQrImage, setShowQrImage] = useAtom(showQrImageAtom);
 
   const zwibblerEl = useRef<HTMLDivElement | null>(null);
   const scope = useRef<MainScope>({} as any);
@@ -92,9 +97,80 @@ export default function Canvas({ noteId }: { noteId: string }) {
       }
     });
 
+    ctx.on('node-clicked', function (node, x, y) {
+      setShowQrImage(false);
+      console.log('node type', ctx.getNodeType(node));
+      var pageNode = ctx.getNodeObject(ctx.getPageNode());
+
+      // console.log('pageNo', pageNo);
+
+      var nodelength = pageNode?.children.length || 0;
+      // const nodes = ctx.
+      // console.log('childNode', childNodes);
+      // childNodes?.map((node) => {
+      //   console.log('node', node);
+      // });
+      for (var childNode = 0; childNode < nodelength; childNode++) {
+        console.log('chidlnode', pageNode?.children[childNode]);
+        var nodeId = pageNode?.children[childNode].id;
+        if (nodeId) {
+          const qrNode = ctx.getNodeProperty(nodeId, '_qrNode');
+          console.log('qrNode', qrNode);
+          // var nodeArr = [];
+          if (qrNode) {
+            // nodeArr.push(noteId);
+            // console.log('nodeArr', nodeArr);
+            var rect = ctx.getNodeRectangle(nodeId);
+            if (
+              x >= rect.x &&
+              x <= rect.x + rect.width &&
+              y >= rect.y &&
+              y <= rect.y + rect.height
+            ) {
+              ctx.clearSelection();
+              setShowQrImage(true);
+              console.log('click');
+            }
+            //   console.log(rect.x, rect.y, rect.width, rect.height);
+            // console.log('x', x);
+            // console.log('y', y);
+          }
+        }
+      }
+      // nodes.map((node) => {
+      //   const fillType = ctx.getNodeProperty(node, '_fillType');
+      // if (ctx.getNodeType(node) === 'HTMLNode') {
+      //   setShowQrImage(true);
+      //   console.log('showQrImage', showQrImage);
+      // } else {
+      //   setShowQrImage(false);
+      // }
+    });
+
+    ctx.on('document-opened', () => {
+      var imageData = BACKGROUND_MAP[0].images[1].data;
+      var node = ctx.getNodeObject(ctx.getPageNode());
+      var nodeLength = node?.children.length || 0;
+      console.log('Canvas Scale', ctx.getCanvasScale());
+
+      if (imageData && nodeLength < 1) {
+        const nodeId = ctx.createNode('ImageNode', {
+          url: imageData.src,
+          layer: CANVAS_LAYER.BACKGROUND,
+          zIndex: -1,
+        });
+        ctx.setNodeProperties(nodeId, {
+          width: CANVAS_SIZE.WIDTH,
+          height: CANVAS_SIZE.HEIGHT,
+        });
+        ctx.clearUndo();
+      }
+    });
+
     ctx.on('set-page', (pageNumber) => {
       ctx.usePickTool();
-      ctx.setZoom('width');
+      // ctx.setZoom('width');
+      ctx.setPaperSize(1000, 745);
 
       // close all ruler
       setShowRuler((prev) => {
@@ -163,6 +239,11 @@ export default function Canvas({ noteId }: { noteId: string }) {
             <div className="pl-6">
               <PickTool />
             </div>
+
+            <div className="pl-20">
+              <PageMove />
+            </div>
+
             <div className="pr-6">
               <ZoomTool />
             </div>
@@ -187,6 +268,9 @@ export default function Canvas({ noteId }: { noteId: string }) {
         <div className="z-50 h-24 sm:h-28">
           <Toolbar />
         </div>
+
+        {/* Dialogue */}
+        <QrConfrimDialogue />
       </div>
     </>
   );

@@ -92,8 +92,8 @@ export const WRITING_MODE = {
 } as const;
 
 export const CANVAS_SIZE = {
-  WIDTH: 794,
-  HEIGHT: 1128,
+  WIDTH: 1000,
+  HEIGHT: 745,
 } as const;
 
 export const CANVAS_LAYER = {
