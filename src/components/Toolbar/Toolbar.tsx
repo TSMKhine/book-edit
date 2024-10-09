@@ -9,7 +9,6 @@ import {
   StickyMenu,
   RulerMenu,
   OtherMenu,
-  PageMenu,
 } from '@/components/Toolbar/ToobarMenu';
 import { cn, getLineWidth } from '@/libs/utils';
 import { useAtom } from 'jotai';
@@ -169,22 +168,6 @@ export default function Toolbar() {
       childStyle: 'right-0',
       onClick: () => {
         ctx.usePickTool();
-      },
-    },
-    {
-      key: 'page',
-      name: 'ページ',
-      icon: PageIcon,
-      component: (
-        <PageMenu
-          showPageList={showPageList}
-          toggleShowPageList={toggleShowPageList}
-        />
-      ),
-      parentStyle: 'relative',
-      childStyle: 'right-0',
-      onClick: () => {
-        setshowPageList(true);
       },
     },
   ];

@@ -6,4 +6,3 @@ export { default as StampMenu } from './StampMenu';
 export { default as StickyMenu } from './StickyMenu';
 export { default as RulerMenu } from './RulerMenu';
 export { default as OtherMenu } from './OtherMenu';
-export { default as PageMenu } from './PageMenu';

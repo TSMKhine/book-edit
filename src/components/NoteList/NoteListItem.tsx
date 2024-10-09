@@ -1,36 +1,10 @@
-import { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import dayjs from 'dayjs';
-import { db } from '@/libs/dexie/db';
 import type { Note } from '@/libs/dexie/models';
-
-import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import CancelButton from '@/components/Dialog/CancelButton';
-import ActionButton from '@/components/Dialog/ActionButton';
-
-import DeleteButtonIcon from '@/assets/icon/list/btn_delete.svg';
-import DialogText from '@/assets/dialog/dialog_txt_11.svg';
-import CancelButtonText from '@/assets/dialog/dialog_btn_01.svg';
-import OKButtonText from '@/assets/dialog/dialog_btn_03.svg';
 
 export default function NoteListItem({ note }: { note: Note }) {
   const router = useRouter();
-  const [open, setOpen] = useState<boolean>(false);
-
-  const handleDeleteNote = async (noteId: string) => {
-    try {
-      await db.note.delete(noteId);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <div className="relative">

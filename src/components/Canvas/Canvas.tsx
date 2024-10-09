@@ -99,66 +99,66 @@ export default function Canvas({ noteId }: { noteId: string }) {
       }
     });
 
-    ctx.on('node-clicked', function (node, x, y) {
-      // const clickQrNode = ctx.getNodeProperty(node, '_qrNode');
-      // if (clickQrNode) {
-      //   ctx.clearSelection();
-      // }
-      setShowQrImage(false);
-      console.log('node type', ctx.getNodeType(node));
-      var pageNode = ctx.getNodeObject(ctx.getPageNode());
+    // ctx.on('node-clicked', function (node, x, y) {
+    //   // const clickQrNode = ctx.getNodeProperty(node, '_qrNode');
+    //   // if (clickQrNode) {
+    //   //   ctx.clearSelection();
+    //   // }
+    //   setShowQrImage(false);
+    //   console.log('node type', ctx.getNodeType(node));
+    //   var pageNode = ctx.getNodeObject(ctx.getPageNode());
 
-      // console.log('pageNo', pageNo);
+    //   // console.log('pageNo', pageNo);
 
-      var nodelength = pageNode?.children.length || 0;
-      // const nodes = ctx.
-      // console.log('childNode', childNodes);
-      // childNodes?.map((node) => {
-      //   console.log('node', node);
-      // });
-      for (var childNode = 0; childNode < nodelength; childNode++) {
-        console.log('chidlnode', pageNode?.children[childNode]);
-        var nodeId = pageNode?.children[childNode].id;
-        if (nodeId) {
-          const qrNode = ctx.getNodeProperty(nodeId, '_qrNode');
-          console.log('qrNode', qrNode);
-          // var nodeArr = [];
-          if (qrNode) {
-            // nodeArr.push(noteId);
-            // console.log('nodeArr', nodeArr);
-            var rect = ctx.getNodeRectangle(nodeId);
-            if (
-              x >= rect.x &&
-              x <= rect.x + rect.width &&
-              y >= rect.y &&
-              y <= rect.y + rect.height
-            ) {
-              // console.log('audioPlayer', audioPlayer);
-              ctx.clearSelection();
-              // if (audioPlayer) {
-              //   stopAudio();
-              // } else {
-              //   imageAudio();
-              // }
-              // console.log('audioPlayer after', audioPlayer);
-              setShowQrImage(true);
-              console.log('click');
-            }
-            //   console.log(rect.x, rect.y, rect.width, rect.height);
-            // console.log('x', x);
-            // console.log('y', y);
-          }
-        }
-      }
-      // nodes.map((node) => {
-      //   const fillType = ctx.getNodeProperty(node, '_fillType');
-      // if (ctx.getNodeType(node) === 'HTMLNode') {
-      //   setShowQrImage(true);
-      //   console.log('showQrImage', showQrImage);
-      // } else {
-      //   setShowQrImage(false);
-      // }
-    });
+    //   var nodelength = pageNode?.children.length || 0;
+    //   // const nodes = ctx.
+    //   // console.log('childNode', childNodes);
+    //   // childNodes?.map((node) => {
+    //   //   console.log('node', node);
+    //   // });
+    //   for (var childNode = 0; childNode < nodelength; childNode++) {
+    //     console.log('chidlnode', pageNode?.children[childNode]);
+    //     var nodeId = pageNode?.children[childNode].id;
+    //     if (nodeId) {
+    //       const qrNode = ctx.getNodeProperty(nodeId, '_qrNode');
+    //       console.log('qrNode', qrNode);
+    //       // var nodeArr = [];
+    //       if (qrNode) {
+    //         // nodeArr.push(noteId);
+    //         // console.log('nodeArr', nodeArr);
+    //         var rect = ctx.getNodeRectangle(nodeId);
+    //         if (
+    //           x >= rect.x &&
+    //           x <= rect.x + rect.width &&
+    //           y >= rect.y &&
+    //           y <= rect.y + rect.height
+    //         ) {
+    //           // console.log('audioPlayer', audioPlayer);
+    //           ctx.clearSelection();
+    //           // if (audioPlayer) {
+    //           //   stopAudio();
+    //           // } else {
+    //           //   imageAudio();
+    //           // }
+    //           // console.log('audioPlayer after', audioPlayer);
+    //           setShowQrImage(true);
+    //           console.log('click');
+    //         }
+    //         //   console.log(rect.x, rect.y, rect.width, rect.height);
+    //         // console.log('x', x);
+    //         // console.log('y', y);
+    //       }
+    //     }
+    //   }
+    //   // nodes.map((node) => {
+    //   //   const fillType = ctx.getNodeProperty(node, '_fillType');
+    //   // if (ctx.getNodeType(node) === 'HTMLNode') {
+    //   //   setShowQrImage(true);
+    //   //   console.log('showQrImage', showQrImage);
+    //   // } else {
+    //   //   setShowQrImage(false);
+    //   // }
+    // });
 
     ctx.on('document-opened', () => {
       var imageData;
@@ -171,7 +171,7 @@ export default function Canvas({ noteId }: { noteId: string }) {
 
       var node = ctx.getNodeObject(ctx.getPageNode());
       var nodeLength = node?.children.length || 0;
-      console.log('Canvas Scale', ctx.getCanvasScale());
+      // console.log('Canvas Scale', ctx.getCanvasScale());
 
       if (imageData && nodeLength < 1) {
         const nodeId = ctx.createNode('ImageNode', {

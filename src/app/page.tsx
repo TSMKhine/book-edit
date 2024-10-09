@@ -1,21 +1,15 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
-import AddNewButton from '@/components/Common/AddNoteButton';
+
 import { useEffect, useState } from 'react';
 import Loading from '@/components/Loading';
 import LogoIcon from '@/assets/icon/home/logo.svg';
-import NewButtonIcon from '@/assets/icon/home/new_btn.svg';
-import ListButtonIcon from '@/assets/icon/home/list_btn.svg';
-import BackgroundIcon from '@/assets/icon/home/background.svg';
 import NoteList from '@/components/NoteList';
 import { db } from '@/libs/dexie/db';
-import { initialize } from 'next/dist/server/lib/render-server';
 import BOOKLIST_MAP from '@/components/Common/BookListMap';
 
 export default function Home() {
-  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -43,10 +37,6 @@ export default function Home() {
     };
     initializeDB();
   }, []);
-
-  // const handleContinue = () => {
-  //   router.push('/list');
-  // };
 
   return isLoading ? (
     <Loading isStart={false} />

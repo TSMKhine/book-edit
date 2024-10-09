@@ -9,13 +9,18 @@ import BackButton from '@/assets/icon/header/main_btn_back_off.svg';
 import UndoButton from '@/assets/icon/header/main_btn_undo_off.svg';
 import RedoButton from '@/assets/icon/header/main_btn_redo_off.svg';
 
-import Title from '@/components/Header/Title';
+import { usePathname } from 'next/navigation';
+import { useLiveQuery } from 'dexie-react-hooks';
+import { db } from '@/libs/dexie/db';
 import { cn } from '@/libs/utils';
 
 export default function Header() {
   const router = useRouter();
   const [ctx] = useAtom(contextAtom);
   const [isSaving] = useAtom(isSavingAtom);
+  const pathname = usePathname();
+  const noteId = pathname.split('/').pop() as string;
+  const note = useLiveQuery(() => db.note.get(noteId));
 
   const handleBackButton = () => {
     router.push('/');
@@ -38,7 +43,12 @@ export default function Header() {
       </div>
 
       <div className="grid grow place-items-center">
-        <Title />
+        <div className="w-48 text-center sm:w-72 md:w-96">
+          <div className="max-w-full truncate text-white active:opacity-80 sm:text-lg">
+            {note?.title}
+          </div>
+        </div>
+        {/* <Title /> */}
       </div>
 
       <div className="flex gap-2 pr-2 sm:pr-6">

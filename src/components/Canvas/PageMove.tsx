@@ -11,7 +11,6 @@ import BackButtonOnIcon from '@/assets/icon/common/back.svg';
 import MultiPickButtonOffIcon from '@/assets/icon/common/menu_btn_multipick_off.svg';
 import MultiPickButtonOnIcon from '@/assets/icon/common/menu_btn_multipick_on.svg';
 import BACKGROUND_MAP from './BackgroundMap';
-import { setBackgroundImage } from '../Toolbar/ToobarMenu/PageMenu/PageMenu';
 import zIndex from '@mui/material/styles/zIndex';
 
 export default function PageMove({ noteId }: { noteId: string }) {
