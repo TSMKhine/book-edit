@@ -38,7 +38,7 @@ export default function NoteListItem({ note }: { note: Note }) {
         className="h-fit w-full shadow-xl outline outline-1 outline-gray-300"
         onClick={() => router.push(`/${note.id}`)}
       >
-        <div className="relative aspect-A4 bg-white">
+        <div className="aspect-landscape relative bg-white">
           {note.snapshot && (
             <Image src={note.snapshot} alt={note.title} fill={true} />
           )}

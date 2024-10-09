@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
+// import { audioPlayer, imageAudio, stopAudio } from '@/libs/imageAudio';
 
 import { MainScope, ZwibblerClass } from '@/libs/zwibbler/zwibbler-def';
 import { ZwibblerInitializer } from '@/libs/zwibbler/Initialize';
@@ -18,6 +19,7 @@ import CompassStep from '@/components/Ruler/CompassTool/CompassStep';
 
 import useNote from '@/hooks/useNote';
 import { stopAudio } from '@/libs/audio';
+
 import { TRulerKind } from '@/types/ui';
 
 import CanvasPosition from './CanvasPosition';
@@ -98,6 +100,10 @@ export default function Canvas({ noteId }: { noteId: string }) {
     });
 
     ctx.on('node-clicked', function (node, x, y) {
+      // const clickQrNode = ctx.getNodeProperty(node, '_qrNode');
+      // if (clickQrNode) {
+      //   ctx.clearSelection();
+      // }
       setShowQrImage(false);
       console.log('node type', ctx.getNodeType(node));
       var pageNode = ctx.getNodeObject(ctx.getPageNode());
@@ -127,7 +133,14 @@ export default function Canvas({ noteId }: { noteId: string }) {
               y >= rect.y &&
               y <= rect.y + rect.height
             ) {
+              // console.log('audioPlayer', audioPlayer);
               ctx.clearSelection();
+              // if (audioPlayer) {
+              //   stopAudio();
+              // } else {
+              //   imageAudio();
+              // }
+              // console.log('audioPlayer after', audioPlayer);
               setShowQrImage(true);
               console.log('click');
             }
@@ -148,7 +161,14 @@ export default function Canvas({ noteId }: { noteId: string }) {
     });
 
     ctx.on('document-opened', () => {
-      var imageData = BACKGROUND_MAP[0].images[1].data;
+      var imageData;
+      if (noteId === 'kokugo1') {
+        imageData = BACKGROUND_MAP[0].images[1].data;
+      }
+      if (noteId === 'kokugo2') {
+        imageData = BACKGROUND_MAP[1].images[0].data;
+      }
+
       var node = ctx.getNodeObject(ctx.getPageNode());
       var nodeLength = node?.children.length || 0;
       console.log('Canvas Scale', ctx.getCanvasScale());
@@ -196,7 +216,7 @@ export default function Canvas({ noteId }: { noteId: string }) {
     return () => {
       if (scope.current) {
         scope.current.ctx.destroy();
-        stopAudio(ctx);
+        stopAudio();
       }
       if (zwibblerEl.current) {
         Zwibbler.detach(zwibblerEl.current);
@@ -241,7 +261,7 @@ export default function Canvas({ noteId }: { noteId: string }) {
             </div>
 
             <div className="pl-20">
-              <PageMove />
+              <PageMove noteId={noteId} />
             </div>
 
             <div className="pr-6">

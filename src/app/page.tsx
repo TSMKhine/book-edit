@@ -21,10 +21,7 @@ export default function Home() {
   useEffect(() => {
     const initializeDB = async () => {
       BOOKLIST_MAP.map(async (book, index) => {
-        console.log('book', book);
-        // console.log('noteId', );
         var existData = await db.note.get(book.id);
-        console.log('existDat', existData);
         if (!existData) {
           await db.note
             .add({
@@ -64,7 +61,7 @@ export default function Home() {
       </div>
 
       {/* list */}
-      <div className="bg-primary pt-12  sm:pt-16 ">
+      <div className="bg-primary   ">
         <NoteList isLoading={isLoading} />
       </div>
     </div>

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { contextAtom, toolNameAtom } from '@/stores/canvas';
 import { CANVAS_LAYER, CANVAS_SIZE, TOOL, WIDTH } from '@/constants/canvas';
-
+import { StaticImageData } from 'next/image';
 import PickButtonOffIcon from '@/assets/icon/common/menu_btn_pick_off.svg';
 import qrIcon from '@/assets/icon/common/scan_me_qr_code.jpg';
 import NextButtonOnIcon from '@/assets/icon/common/next.svg';
@@ -14,48 +14,56 @@ import BACKGROUND_MAP from './BackgroundMap';
 import { setBackgroundImage } from '../Toolbar/ToobarMenu/PageMenu/PageMenu';
 import zIndex from '@mui/material/styles/zIndex';
 
-export default function PageMove() {
+export default function PageMove({ noteId }: { noteId: string }) {
   const [ctx] = useAtom(contextAtom);
   const [toolName] = useAtom(toolNameAtom);
   // const [showQrImage, setShowQrImage] = useAtom(showQrImageAtom);
 
   const [isMultiPick, setMultiPick] = useState(false);
 
+  const addImageBackground = (imageData: StaticImageData) => {
+    const nodeId = ctx.createNode('ImageNode', {
+      url: imageData.src,
+      layer: CANVAS_LAYER.BACKGROUND,
+      zIndex: -1,
+      preventUndo: true,
+      preventRedo: true,
+    });
+    ctx.setNodeProperties(nodeId, {
+      width: CANVAS_SIZE.WIDTH,
+      height: CANVAS_SIZE.HEIGHT,
+    });
+    ctx.clearUndo();
+  };
+
   const handleNextTool = () => {
     // ctx.nextPage();
-    console.log('Total Count', ctx.getPageCount());
+
     if (ctx.nextPage() === undefined && ctx.getPageCount() < 5) {
       ctx.setCurrentPage(ctx.addPage());
       // ctx.nextPage();
-      console.log('current Page', ctx.getCurrentPage());
+
       var node = ctx.getNodeObject(ctx.getPageNode());
-      var pageNo = ctx.getCurrentPage() + 1;
-      console.log('pageNo', pageNo);
+      var pageNo = ctx.getCurrentPage();
 
       var nodeLength = node?.children.length || 0;
-      console.log('child  node', nodeLength);
-      if (nodeLength === 0) {
-        var imageData = BACKGROUND_MAP[0].images[pageNo].data;
-        console.log('imageData', BACKGROUND_MAP[0].images[pageNo]);
-        if (imageData) {
-          const nodeId = ctx.createNode('ImageNode', {
-            url: imageData.src,
-            layer: CANVAS_LAYER.BACKGROUND,
-            zIndex: -1,
-            preventUndo: true,
-            preventRedo: true,
-          });
-          ctx.setNodeProperties(nodeId, {
-            width: CANVAS_SIZE.WIDTH,
-            height: CANVAS_SIZE.HEIGHT,
-          });
-          ctx.clearUndo();
-        }
+      var backgroundMap;
+      if (noteId === 'kokugo1') {
+        backgroundMap = BACKGROUND_MAP[0];
+        pageNo = ctx.getCurrentPage() + 1;
       }
 
-      if (pageNo == 3) {
-        console.log('pageNo', pageNo);
+      if (noteId === 'kokugo2') {
+        backgroundMap = BACKGROUND_MAP[1];
+      }
 
+      if (nodeLength === 0) {
+        var imageData = backgroundMap?.images[pageNo].data;
+        if (imageData) {
+          addImageBackground(imageData);
+        }
+      }
+      if (pageNo == 3) {
         var imageNode = ctx.createNode('ImageNode', {
           url: qrIcon.src,
         });

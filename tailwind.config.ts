@@ -62,6 +62,7 @@ const config: Config = {
       },
       aspectRatio: {
         A4: '1/1.414',
+        landscape: '1.4',
       },
       keyframes: {
         'accordion-down': {
