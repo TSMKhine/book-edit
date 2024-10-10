@@ -20,7 +20,7 @@ export const imageAudio = () => {
     autoplay: false,
     loop: false,
     onend: () => {
-      stopAudio();
+      stopImageAudio();
     },
   });
   console.log('audioPlayer', audioPlayer);
@@ -28,7 +28,7 @@ export const imageAudio = () => {
   audioPlayer.play();
 };
 
-export const stopAudio = () => {
+export const stopImageAudio = () => {
   playingNodeId = undefined;
 
   if (audioPlayer) {

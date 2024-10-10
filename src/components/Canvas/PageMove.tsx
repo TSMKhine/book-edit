@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { use, useState } from 'react';
 import { useAtom } from 'jotai';
 import { contextAtom, toolNameAtom } from '@/stores/canvas';
 import { CANVAS_LAYER, CANVAS_SIZE, TOOL, WIDTH } from '@/constants/canvas';
@@ -72,6 +72,8 @@ export default function PageMove({ noteId }: { noteId: string }) {
           lockRotation: true,
           lockSize: true,
           _qrNode: true,
+          lockEditMode: true,
+          layer: CANVAS_LAYER.BACKGROUND,
           // allowSelectBox: false,
         });
         ctx.translateNode(imageNode, 200, 200);
